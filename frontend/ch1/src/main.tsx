@@ -1,13 +1,7 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <div>Hello World</div>,
-  },
-]);
+import { RouterProvider } from "react-router";
+import router from "./router/root";
 
 createRoot(document.getElementById("root")!).render(
   <RouterProvider router={router}></RouterProvider>
