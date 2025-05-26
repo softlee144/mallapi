@@ -1,14 +1,13 @@
 import { useParams } from "react-router";
 
-function ReadPage() {
+function ModifyPage() {
   const { tno } = useParams();
-  console.log(tno);
 
   return (
     <div className="bg-white w-full">
-      <div className="text-4xl">Todo Read Page {tno}</div>
+      <div className="text-4xl">Todo Modify Page {tno}</div>
     </div>
   );
 }
 
-export default ReadPage;
+export default ModifyPage;
