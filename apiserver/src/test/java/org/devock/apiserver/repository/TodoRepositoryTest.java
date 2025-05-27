@@ -90,4 +90,11 @@ public class TodoRepositoryTest {
         log.info(result.getContent());
 
     }
+
+    @Test
+    public void testSearch1() {
+
+        todoRepository.search1();
+
+    }
 }
