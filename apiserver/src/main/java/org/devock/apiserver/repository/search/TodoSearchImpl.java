@@ -1,8 +1,12 @@
 package org.devock.apiserver.repository.search;
 
+import java.util.List;
+
 import org.devock.apiserver.domain.QTodo;
 import org.devock.apiserver.domain.Todo;
+import org.devock.apiserver.dto.PageRequestDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,25 +24,24 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
     }
 
     @Override
-    public Page<Todo> search1() {
+    public Page<Todo> search1(PageRequestDTO pageRequestDTO) {
         log.info("search1..............................");
 
         QTodo todo = QTodo.todo;
 
         JPQLQuery<Todo> query = from(todo);
 
-        query.where(todo.title.contains("1"));
-
-        Pageable pageable = PageRequest.of(1, 10, Sort.by("tno").descending());
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(), Sort.by("tno").descending());
 
         // querydsal 페이징 처리
         this.getQuerydsl().applyPagination(pageable, query);
 
-        query.fetch(); // 목록 데이터
+        List<Todo> list = query.fetch(); // 목록 데이터
 
-        query.fetchCount();
+        long total = query.fetchCount();
 
-        return null;
+        return new PageImpl<>(list, pageable, total);
     }
 
 }

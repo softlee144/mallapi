@@ -2,6 +2,7 @@ package org.devock.apiserver.service;
 
 import java.time.LocalDate;
 
+import org.devock.apiserver.dto.PageRequestDTO;
 import org.devock.apiserver.dto.TodoDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class TodoServiceTest {
                 .build();
 
         log.info(todoService.register(todoDTO));
+    }
+
+    @Test
+    public void testGetList() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(11).build();
+
+        log.info(todoService.getList(pageRequestDTO));
     }
 
 }

@@ -1,6 +1,8 @@
 package org.devock.apiserver.service;
 
 import org.devock.apiserver.domain.Todo;
+import org.devock.apiserver.dto.PageRequestDTO;
+import org.devock.apiserver.dto.PageResponseDTO;
 import org.devock.apiserver.dto.TodoDTO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,8 @@ public interface TodoService {
     void modify(TodoDTO dto);
 
     void remove(Long tno);
+
+    PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO);
 
     default TodoDTO entityToDTO(Todo todo) {
 

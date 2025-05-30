@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -19,6 +20,7 @@ public class PageResponseDTO<E> {
 
     private int totalCount, prevPage, nextPage, totalPage, current;
 
+    @Builder(builderMethodName = "withAll")
     public PageResponseDTO(List<E> dtoList, PageRequestDTO pageRequestDTO, long total) {
 
         this.dtoList = dtoList;
