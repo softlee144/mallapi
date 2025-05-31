@@ -1,5 +1,7 @@
 package org.devock.apiserver.controller;
 
+import java.util.Map;
+
 import org.devock.apiserver.dto.PageRequestDTO;
 import org.devock.apiserver.dto.PageResponseDTO;
 import org.devock.apiserver.dto.TodoDTO;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @Log4j2
@@ -33,6 +37,16 @@ public class TodoController {
         log.info("list..............." + pageRequestDTO);
 
         return todoService.getList(pageRequestDTO);
+    }
+
+    @PostMapping("/")
+    public Map<String, Long> register(@RequestBody TodoDTO dto) {
+
+        log.info("TodoDTO : " + dto);
+
+        Long tno = todoService.register(dto);
+
+        return Map.of("TNO", tno);
     }
 
 }
