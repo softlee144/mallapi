@@ -24,3 +24,9 @@ interface PageResponseDTO<T> {
   totalPage: number; // Total number of pages
   current: number; // Current page number
 }
+
+interface ResultModal {
+  title: string;
+  content: string;
+  callbackFn?: () => void;
+}
