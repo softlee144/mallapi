@@ -30,6 +30,8 @@ public class Todo {
 
     private String content;
 
+    private String writer;
+
     private boolean complete;
 
     private LocalDate dueDate;
@@ -48,6 +50,10 @@ public class Todo {
 
     public void changeDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public void setWriter(String writer) {
+        this.writer = writer;
     }
 
 }
