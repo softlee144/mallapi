@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { createSearchParams, useNavigate, useSearchParams } from "react-router";
 
 function useCustomMove() {
   const navigate = useNavigate();
   const [queryParams] = useSearchParams();
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const pageStr: string | null = queryParams.get("page");
   const sizeStr: string | null = queryParams.get("size");
@@ -34,12 +36,17 @@ function useCustomMove() {
         page: String(pageNum),
         size: String(sizeNum),
       }).toString();
+
+      // 동일 페이지 클릭
+      if (queryStr === queryDefault) {
+        setRefresh(!refresh);
+      }
     } else {
       queryStr = queryDefault;
     }
     navigate({ pathname: `../list`, search: queryStr });
   };
-  return { page, size, moveToList, moveToModify, moveToRead };
+  return { page, size, moveToList, refresh, moveToModify, moveToRead };
 }
 
 export default useCustomMove;
