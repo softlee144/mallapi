@@ -1,5 +1,6 @@
 package org.devock.apiserver.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.devock.apiserver.domain.Product;
@@ -27,6 +28,19 @@ public class ProductRepositoryTest {
         product.addImageString(UUID.randomUUID() + "_" + "image2.png");
 
         productRepository.save(product);
+    }
+
+    @Test
+    public void testRead2() {
+        Long pno = 1L;
+
+        Optional<Product> result = productRepository.selectOne(pno);
+
+        Product product = result.orElseThrow();
+
+        log.info(product);
+
+        log.info(product.getImageList());
     }
 
 }
