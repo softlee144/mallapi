@@ -49,6 +49,10 @@ public class Product {
         this.pname = pname;
     }
 
+    public void changeDel(boolean delFlag) {
+        this.delFlag = delFlag;
+    }
+
     public void addImage(ProductImage image) {
         image.setOrd(this.imageList.size()); // 순서 설정
         this.imageList.add(image);

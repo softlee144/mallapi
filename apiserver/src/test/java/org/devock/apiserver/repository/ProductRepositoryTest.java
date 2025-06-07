@@ -7,6 +7,8 @@ import org.devock.apiserver.domain.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -20,8 +22,8 @@ public class ProductRepositoryTest {
     @Test
     public void testInsert() {
         Product product = Product.builder()
-                .pname("Test")
-                .pdesc("Test Desc")
+                .pname("Test2")
+                .pdesc("Test2 Desc")
                 .price(1000).build();
 
         product.addImageString(UUID.randomUUID() + "_" + "image1.png");
@@ -41,6 +43,30 @@ public class ProductRepositoryTest {
         log.info(product);
 
         log.info(product.getImageList());
+    }
+
+    @Commit
+    @Transactional
+    @Test
+    public void testDelete() {
+        Long pno = 2L;
+        productRepository.updateToDelete(pno, true);
+    }
+
+    @Test
+    public void testUpdate() {
+        Product product = productRepository.selectOne(1L).get();
+
+        product.changePrice(3000);
+
+        product.clearList();
+
+        product.addImageString(UUID.randomUUID() + "_" + "pimage1.png");
+        product.addImageString(UUID.randomUUID() + "_" + "pimage2.png");
+        product.addImageString(UUID.randomUUID() + "_" + "pimage2.png");
+
+        productRepository.save(product);
+
     }
 
 }
