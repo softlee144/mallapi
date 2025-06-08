@@ -3,7 +3,10 @@ package org.devock.apiserver.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.devock.apiserver.dto.PageRequestDTO;
+import org.devock.apiserver.dto.PageResponseDTO;
 import org.devock.apiserver.dto.ProductDTO;
+import org.devock.apiserver.service.ProductService;
 import org.devock.apiserver.util.CustomFileUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @RequestMapping("/api/product")
 public class ProductController {
+    // ProductService 주입
+    private final ProductService productService;
     private final CustomFileUtil fileUtil;
 
     @PostMapping("/")
@@ -41,6 +46,14 @@ public class ProductController {
     public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName) {
         return fileUtil.getFile(fileName);
 
+    }
+
+    @GetMapping("/list")
+    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
+
+        log.info("list............" + pageRequestDTO);
+
+        return productService.getList(pageRequestDTO);
     }
 
 }
