@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @Log4j2
@@ -29,18 +30,18 @@ public class ProductController {
     private final ProductService productService;
     private final CustomFileUtil fileUtil;
 
-    @PostMapping("/")
-    public Map<String, String> register(ProductDTO productDTO) {
-        log.info("register : " + productDTO);
+    // @PostMapping("/")
+    // public Map<String, String> register_old(ProductDTO productDTO) {
+    // log.info("register : " + productDTO);
 
-        List<MultipartFile> files = productDTO.getFiles();
-        List<String> uploadFileNames = fileUtil.saveRFiles(files);
-        productDTO.setUploadFileNames(uploadFileNames);
+    // List<MultipartFile> files = productDTO.getFiles();
+    // List<String> uploadFileNames = fileUtil.saveRFiles(files);
+    // productDTO.setUploadFileNames(uploadFileNames);
 
-        log.info(uploadFileNames);
+    // log.info(uploadFileNames);
 
-        return Map.of("RESULT", "SUCCESS");
-    }
+    // return Map.of("RESULT", "SUCCESS");
+    // }
 
     @GetMapping("/view/{fileName}")
     public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName) {
@@ -54,6 +55,30 @@ public class ProductController {
         log.info("list............" + pageRequestDTO);
 
         return productService.getList(pageRequestDTO);
+    }
+
+    @PostMapping("/")
+    public Map<String, Long> register(ProductDTO productDTO) {
+
+        log.info("rgister: " + productDTO);
+
+        List<MultipartFile> files = productDTO.getFiles();
+
+        List<String> uploadFileNames = fileUtil.saveRFiles(files);
+
+        productDTO.setUploadFileNames(uploadFileNames);
+
+        log.info(uploadFileNames);
+
+        // 서비스 호출
+        Long pno = productService.register(productDTO);
+
+        return Map.of("RESULT", pno);
+    }
+
+    @GetMapping("/{pno}")
+    public ProductDTO read(@PathVariable("pno") Long pno) {
+        return productService.get(pno);
     }
 
 }

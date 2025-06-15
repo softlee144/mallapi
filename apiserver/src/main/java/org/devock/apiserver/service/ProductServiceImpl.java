@@ -1,6 +1,7 @@
 package org.devock.apiserver.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.devock.apiserver.domain.Product;
@@ -64,6 +65,41 @@ public class ProductServiceImpl implements ProductService {
                 .totalCount(totalCount)
                 .pageRequestDTO(pageRequestDTO)
                 .build();
+    }
+
+    private ProductDTO entityToDTO(Product product) {
+
+        ProductDTO productDTO = ProductDTO.builder()
+                .pno(product.getPno())
+                .pname(product.getPname())
+                .pdesc(product.getPdesc())
+                .price(product.getPrice())
+                .delFlag(product.isDelFlag())
+                .build();
+
+        List<ProductImage> imageList = product.getImageList();
+
+        if (imageList == null || imageList.isEmpty()) {
+            return productDTO;
+        }
+
+        List<String> fileNameList = imageList.stream().map(productImage -> productImage.getFileName()).toList();
+
+        productDTO.setUploadFileNames(fileNameList);
+
+        return productDTO;
+    }
+
+    @Override
+    public ProductDTO get(Long pno) {
+        Optional<Product> result = productRepository.findById(pno);
+
+        Product product = result.orElseThrow();
+
+        ProductDTO productDTO = entityToDTO(product);
+
+        return productDTO;
+
     }
 
     private Product dtoToEntity(ProductDTO productDTO) {
