@@ -42,7 +42,7 @@ public class CustomFileUtil {
         log.info(uploadPath);
     }
 
-    public List<String> saveRFiles(List<MultipartFile> files) throws RuntimeException {
+    public List<String> saveFiles(List<MultipartFile> files) throws RuntimeException {
 
         if (files == null || files.size() == 0) {
             return null;
@@ -114,4 +114,5 @@ public class CustomFileUtil {
             }
         });
     }
+
 }
